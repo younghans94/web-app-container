@@ -21,9 +21,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.Green
@@ -77,12 +77,12 @@ fun Counter(count: Int, updateCount: (Int) -> Unit, modifier: Modifier = Modifie
 @Preview
 @Composable
 fun PreviewCounter(modifier: Modifier = Modifier) {
-    val counterState = remember { mutableIntStateOf(0) }
+    val counterState = remember { mutableStateOf(0) }
 
     Counter(
-        count = counterState.intValue,
+        count = counterState.value,
         updateCount = { newCount ->
-            counterState.intValue = newCount
+            counterState.value = newCount
         },
         modifier
     )
@@ -99,7 +99,7 @@ fun GreetingPreview() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScaffoldExample() {
-    var presses = remember { mutableIntStateOf(0) }
+    var presses = remember { mutableStateOf<Int>(0) }
 
     Scaffold(
         topBar = {
@@ -107,7 +107,7 @@ fun ScaffoldExample() {
                 navigationIcon = {
                     Icon(Icons.Default.Face, contentDescription = "Add")
                 },
-                colors = topAppBarColors(
+                colors = TopAppBarDefaults.smallTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.primary,
                 ),
@@ -129,7 +129,7 @@ fun ScaffoldExample() {
             }
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { presses.intValue++ }) {
+            FloatingActionButton(onClick = { presses.value++ }) {
                 Icon(Icons.Default.Face, contentDescription = "Add")
             }
         }
@@ -147,7 +147,7 @@ fun ScaffoldExample() {
 
                     It also contains some basic inner content, such as this text.
 
-                    You have pressed the floating action button ${presses.intValue} times.
+                    You have pressed the floating action button ${presses.value} times.
                 """.trimIndent(),
             )
         }
